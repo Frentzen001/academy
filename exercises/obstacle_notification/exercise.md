@@ -201,6 +201,13 @@ def is_obstacle_detected(ranges, threshold=0.5):
     return min(valid_readings) < threshold
 ```
 
+> **Important:** The algorithm assumes the front of the robot maps to the middle
+> index of the `ranges` array. This depends on the LIDAR's scan configuration.
+> After running your node, verify it triggers correctly by driving the robot
+> toward an obstacle and observing the `/obstacle_alert` output. If detection
+> triggers from the wrong direction, the LIDAR's zero-index direction may differ
+> from this assumption.
+
 Now write a ROS 2 node around it. Your node should:
 
 - **Subscribe** to the LIDAR topic you identified in Phase 1
@@ -255,7 +262,7 @@ if __name__ == '__main__':
 
 ### 3.3 Update package.xml
 
-Open `~/linorobot2_ws/src/obstacle_notification/package.xml` and add these dependencies inside the `<package>` block:
+Open `~/linorobot2_ws/src/obstacle_notification/package.xml` and add these three lines **after the existing `<buildtool_depend>` line**:
 
 ```xml
 <exec_depend>rclpy</exec_depend>
@@ -341,7 +348,7 @@ if __name__ == '__main__':
     main()
 ```
 
-> **Tip:** Use `self.get_logger().warn(...)` for obstacle alerts and `self.get_logger().info(...)` for clear path messages to make the output easy to read at a glance.
+> **Tip:** Use `self.get_logger().warning(...)` for obstacle alerts and `self.get_logger().info(...)` for clear path messages to make the output easy to read at a glance.
 
 ---
 
