@@ -21,6 +21,16 @@ Good luck, and ask if anything's unclear!
 
 ---
 
+## Before You Start
+
+If this is the first time you are working on any of these exercises, go through the environment setup guide before continuing:
+
+[**Environment Setup →**](../environment_setup.md)
+
+This covers how to access the simulation environment, launch Gazebo, and use the tools you will need throughout the exercises.
+
+---
+
 ## Overview
 
 Before starting, launch the robot simulation in one of your tmux panes:
@@ -31,7 +41,7 @@ ros2 launch linorobot2_gazebo gazebo.launch.py spawn_x:=0.5
 
 Wait until Gazebo has fully loaded and the robot is visible in the browser before proceeding.
 
-![Robot spawned in the Gazebo simulation](assets/robot_in_gazebo.png)
+![Robot spawned in the Gazebo simulation](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/robot_in_gazebo.png)
 
 In this assignment you will:
 
@@ -68,7 +78,7 @@ This creates a PDF called `frames.pdf` in the current directory. Open it to see 
 
 Below is an example of what the frames look like in RViz when the robot is running:
 
-![TF frames in RViz](assets/tf.png)
+![TF frames in RViz](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/tf.png)
 
 You should see a tree that looks like this:
 
@@ -149,7 +159,7 @@ Drive the robot forward a short distance with teleop and echo the topic to see i
 ros2 topic echo /odom/unfiltered
 ```
 
-![Terminal output of ros2 topic echo /odom/unfiltered](assets/echo_odom.png)
+![Terminal output of ros2 topic echo /odom/unfiltered](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/echo_odom.png)
 
 The key fields to notice are:
 
@@ -285,7 +295,7 @@ Once open, configure the display:
 
 You should now see a ring of coloured dots surrounding the robot, representing the distances measured in every direction.
 
-![LIDAR sensor data in RViz](assets/lidar_sensor.png)
+![LIDAR sensor data in RViz](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/lidar_sensor.png)
 
 > **What you are looking at:** Each dot is one ray from the spinning laser. The dot's distance from the robot centre represents how far away the nearest surface is in that direction. Walls and objects appear as clusters of dots at their actual positions. This is the raw data that SLAM and Nav2 will use.
 
@@ -330,7 +340,7 @@ Use the following keys to control the robot:
 
 Drive the robot slowly around the entire simulated environment. Your goal is to cover every room, corridor, and corner. Watch the map build up in RViz as you go.
 
-![Building a map in RViz](assets/mapping.gif)
+![Building a map in RViz](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/mapping.gif)
 
 **Tips for a good map:**
 - Drive **slowly**, as fast movement reduces scan-matching accuracy and introduces drift
@@ -395,7 +405,7 @@ Then:
 2. Hold the mouse button and drag in the direction the robot is facing
 3. Release to confirm
 
-![Setting the initial pose in RViz](assets/set_initial_pose.gif)
+![Setting the initial pose in RViz](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/set_initial_pose.gif)
 
 After setting the pose you should see:
 - The laser scan (red dots) snap into alignment with the walls on the map
@@ -429,7 +439,7 @@ Then:
 2. Hold and drag in the direction you want the robot to be facing when it arrives
 3. Release to send the goal
 
-![Setting a navigation goal in RViz](assets/set_navigation_goal.gif)
+![Setting a navigation goal in RViz](https://raw.githubusercontent.com/linorobot/linorobot2/jazzy/docs/assets/set_navigation_goal.gif)
 
 After setting the goal you should see:
 - A green path drawn from the robot's current position to the goal (this is the **global plan**)

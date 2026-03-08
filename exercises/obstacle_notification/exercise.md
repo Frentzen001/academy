@@ -22,6 +22,16 @@ You've got access to the simulation environment. Take a look around and let the 
 
 ---
 
+## Before You Start
+
+If this is the first time you are working on any of these exercises, go through the environment setup guide before continuing:
+
+[**Environment Setup →**](../environment_setup.md)
+
+This covers how to access the simulation environment, launch Gazebo, and use the tools you will need throughout the exercises.
+
+---
+
 ## Overview
 
 Before starting, launch the robot simulation in one of your tmux panes:
