@@ -33,11 +33,6 @@ cd docker
 nano .env
 ```
 
-> **Note:** The settings below are for the **simulation setup** used in this course.
-> If you are setting up a physical robot, you will also need to configure `ROBOT_BASE`,
-> `LASER_SENSOR`, and `DEPTH_SENSOR` in the same file — refer to the
-> [official docs](https://linorobot.github.io/linorobot2/docker/) for those values.
-
 Set `BASE_IMAGE` to target Gazebo simulation:
 
 ```
@@ -91,7 +86,7 @@ sudo apt install tmuxinator
 Source the tmux setup script to register the linorobot2 profiles with Tmuxinator:
 
 ```bash
-source docker/setup_tmux.bash
+source setup_tmux.bash
 ```
 
 Verify that the profiles are detected:
@@ -125,7 +120,14 @@ This starts the `dev` container and a KasmVNC server, then opens a tmux window w
 http://<your_machine_ip>:3000
 ```
 
-You will see the Gazebo simulation running in the browser window. A robot will be spawned in the world and ready to use.
+You will see the Gazebo simulation running in the browser window. A robot will be spawned in the world and ready to use. The tmux session opens 6 independent terminals you can use to follow the exercises in this repository.
+
+> **Note:** The first time you use any of the 6 terminals, remember to source the workspace:
+> ```bash
+> source ~/linorobot2_ws/install/setup.bash
+> ```
+
+> **Note:** The standard way to work with ROS is through a native system installation (see [Ubuntu Development Setup](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html)). This Docker + Tmuxinator approach is simply a convenient way to quickly get through the exercises in this repository without a full system install.
 
 ### Navigating the Tmux Session
 
