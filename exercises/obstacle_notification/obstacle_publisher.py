@@ -44,7 +44,7 @@ class ObstaclePublisher(Node):
 
         self.subscription = self.create_subscription(
             LaserScan,
-            '/hokuyo',
+            '/scan',
             self.lidar_callback,
             10
         )
