@@ -1,58 +1,85 @@
-# Environment Setup: linorobot2 Docker with Tmuxinator
+# Docker Simulation Setup Guide
 
-This guide walks you through getting the simulation environment up and running using the linorobot2 Docker setup.
+> **Target Audience:** Everyone! (Whether you are on a Local Ubuntu machine or a Cloud VM).
+
+This guide will install the **linorobot2** simulation environment. We use **Docker** to run the simulation.
 
 Reference: [linorobot2 Docker documentation](https://linorobot.github.io/linorobot2/docker/)
 
+Think of Docker like a "shipping container" — everything the robot needs (ROS 2, Gazebo, libraries) is packed inside. You just run the container, and it works, without messing up your own computer.
+
 ---
 
-## 1. One-Time Setup
+## Prerequisites (Locals Only) 🛠️
 
-> If the Docker image has already been built and Tmuxinator is installed, skip to Part 2.
+> **GCP Users:** You installed Docker in the previous guide. **Skip to Step 1.**
 
-### Prerequisites
+**Local Ubuntu Users:**
+You need Docker installed on your laptop to run the robot container.
 
-- Docker and Docker Compose installed on your machine
-- A terminal in the directory where you want to clone the repository
+1.  **Check if you have it:**
+    ```bash
+    docker --version
+    ```
+    If you see a version number, you are ready!
 
-### 1.0 - Clone the repository
+2.  **If not installed:**
+    Run this to install it and configure permissions:
+    ```bash
+    # Install Docker
+    curl -fsSL https://get.docker.com | sudo sh
+
+    # Allow running without 'sudo'
+    sudo usermod -aG docker $USER
+    ```
+    ⚠️ **Important:** After installing, **restart your computer** (or log out and back in) for the permission changes to work.
+
+---
+
+## Step 1: Clone the Repository
+*Where to run: In your terminal (Local Ubuntu terminal or VS Code SSH terminal).*
+
+Download the simulation code:
 
 ```bash
 git clone https://github.com/linorobot/linorobot2
 cd linorobot2
 ```
 
-All subsequent steps assume your terminal is at the repository root (`linorobot2/`).
+> **Note:** All future commands must be run from inside this `linorobot2` folder.
 
-### 1.1 - Configure the Docker environment
+---
 
-Navigate into the `docker` folder and open the `.env` file:
+## Step 2: Configure the Environment
 
-```bash
-cd docker
-nano .env
-```
+We need to tell Docker if you have a graphics card (GPU) or not.
 
-Set `BASE_IMAGE` based on your machine:
+1.  Enter the docker folder:
+    ```bash
+    cd docker
+    ```
+2.  Open the settings file:
+    ```bash
+    nano .env
+    ```
+3.  **Edit the `BASE_IMAGE` line:**
 
-- `gazebo` — for machines **without** an NVIDIA GPU
-- `gazebo-cuda` — for machines with a **CUDA-enabled NVIDIA GPU**
+    *   **For GCP VM Users:** Change it to `gazebo` (GCP VMs don't have GPUs).
+    *   **For Local Users (No NVIDIA GPU):** Change it to `gazebo`.
+    *   **For Local Users (With NVIDIA GPU):** Keep it as `gazebo-cuda`.
 
-```
-BASE_IMAGE=gazebo
-```
+    It should look like this (for most of you):
+    ```bash
+    BASE_IMAGE=gazebo
+    ```
 
-If your machine has an NVIDIA GPU with CUDA installed, use this instead for hardware-accelerated rendering:
+4.  **Save & Exit:** Press `Ctrl+O` -> `Enter` -> `Ctrl+X`.
 
-```
-BASE_IMAGE=gazebo-cuda
-```
+---
 
-Save and close the file.
+## Step 3: Build the Docker Image
 
-### 1.2 - Build the Docker image
-
-From inside the `docker` folder, run the build script:
+This step effectively "installs" the robot computer. It downloads about 3-4GB of data and compiles it.
 
 ```bash
 ./build
@@ -66,10 +93,11 @@ Tmuxinator manages named tmux sessions from a YAML config. It acts like a launch
 
 Follow the installation instructions at: https://github.com/tmuxinator/tmuxinator?tab=readme-ov-file#installation
 
-A quick install on Ubuntu:
+For Ubuntu / Debian (inside your VM or local machine):
 
 ```bash
-sudo apt install tmuxinator
+sudo apt update
+sudo apt install -y tmuxinator
 ```
 
 ---
@@ -89,6 +117,7 @@ sudo apt install tmuxinator
 Source the tmux setup script to register the linorobot2 profiles with Tmuxinator:
 
 ```bash
+cd docker
 source setup_tmux.bash
 ```
 
@@ -123,9 +152,8 @@ This starts the `dev` container and a KasmVNC server, then opens a tmux window w
 
 Once everything is up, open your browser and go to:
 
-```
-http://<your_machine_ip>:3000
-```
+- **Local / SSH Tunnel:** `http://localhost:3000`
+- **GCP Static IP:** `http://<YOUR_STATIC_IP>:3000`
 
 You will see the Gazebo simulation running in the browser window. A robot will be spawned in the world and ready to use. The tmux session opens 6 independent terminals you can use to follow the exercises in this repository.
 
@@ -140,12 +168,17 @@ You will see the Gazebo simulation running in the browser window. A robot will b
 
 Once the session is running, you will see multiple panes in your terminal. Each pane is an interactive shell exec'd into the `dev` container.
 
-Useful key bindings:
+This setup uses **tmux** (terminal multiplexer). Here are the essential commands:
 
-| Keys | Action |
-|------|--------|
-| `Ctrl+B` then arrow keys | Move between panes |
-| `Ctrl+B` then `D` | Detach from the session (everything keeps running) |
+| Action | Key Binding |
+| :--- | :--- |
+| **Move between panes** | `Ctrl+B` then `Arrow Keys` |
+| **Close current pane** | `Ctrl+D` (or type `exit`) |
+| **Detach session** (keep running) | `Ctrl+B` then `D` |
+| **Scroll Mode** (view history) | `Ctrl+B` then `[` (Use arrows/PgUp/PgDn, press `q` to exit) |
+| **Zoom Pane** (maximize/restore) | `Ctrl+B` then `z` |
+
+💡 **Pro Tip:** If your terminal seems frozen, check if you accidentally pressed `Ctrl+S` (flow control off). Press `Ctrl+Q` to unfreeze it.
 
 To reattach to a detached session:
 
@@ -207,3 +240,15 @@ docker compose down
 | Open browser | `http://<host_ip>:3000` |
 | Source workspace | `source ~/linorobot2_ws/install/setup.bash` |
 | Stop session | `tmuxinator stop dev` |
+
+
+## Shutting Down
+
+When you are finished with your session:
+
+1.  **Stop the simulation:**
+    Press `Ctrl+B` then type `:kill-session` and press `Enter`.
+    *Or run `tmuxinator stop dev` if you are detached.*
+
+2.  **Stop your VM (Important for GCP Users!):**
+    Don't forget to stop your cloud instance to save credits.
