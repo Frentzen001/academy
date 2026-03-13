@@ -64,7 +64,7 @@ We need to tell Docker if you have a graphics card (GPU) or not.
     ```
 3.  **Edit the `BASE_IMAGE` line:**
 
-    *   **For GCP VM Users:** Change it to `gazebo` (GCP VMs don't have GPUs).
+    *   **For GCP VM Users:** Change it to `gazebo` (GCP VM we created doesn't have GPUs).
     *   **For Local Users (No NVIDIA GPU):** Change it to `gazebo`.
     *   **For Local Users (With NVIDIA GPU):** Keep it as `gazebo-cuda`.
 
@@ -172,7 +172,8 @@ This setup uses **tmux** (terminal multiplexer). Here are the essential commands
 
 | Action | Key Binding |
 | :--- | :--- |
-| **Move between panes** | `Ctrl+B` then `Arrow Keys` |
+| **Move between panes** | `Ctrl+B` then `Arrow Keys` (Note: Often unreliable in VS Code) |
+| **Switch pane by number** | `Ctrl+B` then `q` then `Pane Number` (Recommended for VS Code) |
 | **Close current pane** | `Ctrl+D` (or type `exit`) |
 | **Detach session** (keep running) | `Ctrl+B` then `D` |
 | **Scroll Mode** (view history) | `Ctrl+B` then `[` (Use arrows/PgUp/PgDn, press `q` to exit) |
