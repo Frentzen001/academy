@@ -81,14 +81,44 @@ This setup uses **tmux** (terminal multiplexer). Here are the essential commands
 
 ---
 
+## Alternative: Manual Terminal Workflow (No Tmux)
+
+If you find `tmux` confusing or hard to navigate, you can use standard terminal windows instead. Instead of running `tmuxinator`, follow these steps for **every new terminal** you need:
+
+1.  **Open a new terminal** in VS Code (`Terminal` -> `New Terminal`).
+2.  **Navigate to the docker folder:**
+    ```bash
+    cd ~/linorobot2/docker
+    ```
+3.  **Enter the development environment:**
+    ```bash
+    ./dev
+    ```
+
+You can repeat this process as many times as needed to have multiple terminals open. Each `./dev` command places you inside the same running Docker container.
+
+---
+
 ## 4. Stopping Your Session (Critical) 🛑
 
 When you are done, you **must** shut everything down to avoid losing work or paying for idle cloud time.
 
 **Step 1: Stop the Simulation**
-1.  In your terminal, press `Ctrl+B`.
-2.  Type `:kill-session` and press `Enter`.
-    *Alternatively, run `tmuxinator stop dev` (or `sim`).*
+
+To ensure your computer doesn't get slow and to prevent errors next time you start, you must stop the running Docker containers.
+
+*   **If using Tmux:**
+    1.  Press `Ctrl+B`, then type `:kill-session` and press `Enter`.
+    2.  *(Or run `tmuxinator stop dev` in a terminal)*.
+
+*   **If using Manual Terminals:**
+    1.  If you have programs running (like the robot simulation), press `Ctrl+C` in their terminals to stop them.
+    2.  Type `exit` in each terminal to leave the Docker container. You will see your command prompt change back to the normal one.
+    3.  **Important:** Run this command to stop the Docker background processes:
+        ```bash
+        # Run this in the ~/linorobot2/docker folder
+        docker compose down
+        ```
 
 **Step 2: Stop the Cloud VM**
 **⚠️ YOU MUST DO THIS TO STOP BILLING.**
