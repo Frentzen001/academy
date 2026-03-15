@@ -66,6 +66,12 @@ Use this for writing code.
 4.  **View the Simulation:**
     Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
+**Optional: Enable Mouse Support**  
+Run this command once to enable mouse support (scrolling, clicking panes). If asked, this also reloads the configuration:
+```bash
+echo "set -g mouse on" > ~/.tmux.conf && tmux source-file ~/.tmux.conf
+```
+
 This setup uses **tmux** (terminal multiplexer). Here are the essential commands:
 
 | Action | Key Binding |
@@ -92,7 +98,7 @@ If you find `tmux` confusing or hard to navigate, you can use standard terminal 
     ```
 3.  **Enter the development environment:**
     ```bash
-    ./dev
+    export DISPLAY=200 && ./dev
     ```
 
 You can repeat this process as many times as needed to have multiple terminals open. Each `./dev` command places you inside the same running Docker container.
