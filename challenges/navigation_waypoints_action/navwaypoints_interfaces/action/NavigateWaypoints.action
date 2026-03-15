@@ -1,0 +1,11 @@
+# Request
+# Array of exactly 4 coordinates for the 2D map
+geometry_msgs/Point[4] waypoints
+---
+# Result
+# Server should send 1 when all coordinates are successfully completed
+int32 status
+---
+# Feedback
+# The latest coordinate the robot just passed through
+geometry_msgs/Point last_passed_waypoint

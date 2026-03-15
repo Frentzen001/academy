@@ -1,0 +1,108 @@
+
+<sdf version="1.8">
+  <world name="playground">
+
+    <gravity>0 0 -9.8</gravity>
+    <physics default="0" name="default_physics" type="ode">
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+    </physics>
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    
+<model name="challenge_map2">
+  <link name="link">
+    <inertial>
+      <mass>15</mass>
+      <inertia>
+        <ixx>0.0</ixx>
+        <ixy>0.0</ixy>
+        <ixz>0.0</ixz>
+        <iyy>0.0</iyy>
+        <iyz>0.0</iyz>
+        <izz>0.0</izz>
+      </inertia>
+    </inertial>
+    <collision name="collision">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <mesh>
+          <uri>model://challenge_map2/meshes/challenge_map2.stl</uri>
+        </mesh>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <mesh>
+          <uri>model://challenge_map2/meshes/challenge_map2.stl</uri>
+        </mesh>
+      </geometry>
+      <material>
+        <ambient>1 1 1 1</ambient>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>0.5 0.5 0.5 1</specular>
+        <emissive>0 0 0 1</emissive>
+      </material>
+    </visual>
+  </link>
+  <static>1</static>
+</model>
+
+    
+  </world>
+</sdf>

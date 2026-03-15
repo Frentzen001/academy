@@ -1,0 +1,20 @@
+name: sim_waypoints
+root: <%= ENV["TMUXINATOR_CONFIG"] %>
+pre_window:
+  - export DISPLAY=:200
+  - export SIM=true
+  - export WORLD=turtlebot3_world
+  - export RVIZ=true
+  - export SPAWN_X=0.5
+on_project_stop:
+  - docker compose down
+windows:
+  - main:
+      panes:
+        - docker compose up kasmvnc
+        - docker compose up gazebo
+        - docker compose up navigate
+        - docker compose exec dev bash -c "ros2 run navwaypoints_server navwaypoints_server"
+        - #docker compose exec dev bash -c "source ~/linorobot2_ws/install/setup.bash && ros2 run navwaypoints_client navwaypoints_client" #to start the challanege
+          #docker compose exec dev bash -c "cp  /tmp/challenge_results/waypoint_results.pk ~/linorobot2_ws/src/linorobot2" #run after challenge to take the pkl file from tmp back to linorobot2 dir for volume sharing/download from vscode
+          #python3 print_results.py ~/linorobot2_ws/src/linorobot2/waypoint_results.pkl # this is run by organisers
